@@ -56,13 +56,11 @@
     </style>
   </head>
   <body>
-    <div id = 'intiateQuiz' class="split left">
+    <div id = "intiateQuiz" style ="display:block" class="split left">
         <div class = "centered">
             <button id = "quiz" onclick = "myFunction()"> QUIZ</button>
         </div>
-    
-  </div>
-  <div  id = "startQuiz" style="display:none;" class= "split right">
+         <div  id = "startQuiz" style="display:none;" >
     <div class = "centered" id="num1"></div><!--end of num1-->
     <input type="text" id="sketchpad-post" autocomplete="off" value = "" placeholder="ans"/>
     <button id = "nxt" onclick="New()">Next</button>  
@@ -76,16 +74,37 @@
         
     </div>
   </div>
+  </div>
+  <div id = "intiateQuiz1" style ="display:block" class="split right">
+        <div class = "centered">
+            <button id = "quiz1" onclick = "myFunction1()"> QUIZ</button>
+        </div>
+  <div  id = "startQuiz1" style="display:none;" class= "split right">
+    <div class = "centered" id="num2"></div><!--end of num1-->
+    <input type="text" id="sketchpad-post1" autocomplete="off" value = "" placeholder="ans"/>
+    <button id = "nxt1" onclick="New1()">Next</button>  
+    <div id = "resultcount1"></div>
+    <div  id = "submit1" style="display:none;"> 
+        <button  id = "sub1"  onclick="submit1()">submit</button>
+        <table>
+            <tbody id="tab1"></tbody>
+        </table>
+        
+        </div>
+    </div>
+  </div>
     <script>
     
         var arr = [];
         var len = 20;
         var idx = 0;
         let numCorrect = 0;
-        let answerContainers=[];
+        var arr1 = [];
+        var len1 = 20;
+        var idx1 = 0;
+        let numCorrect1 = 0;
         function  myFunction() {
-            quiz = document.getElementById('quiz');
-            quiz.innerHTML = "Quiz Started";
+            document.getElementById('quiz').style.display = "none";
             for (var i = 0; i < len; i++) {
                 rnum1 = Math.floor((Math.random()*9)+1);
                 rnum2 = Math.floor((Math.random()*9)+1);
@@ -113,6 +132,35 @@
             num1=document.getElementById("num1");
             num1.innerHTML = arr[0].question;
         }
+         function  myFunction1() {
+            document.getElementById('quiz1').style.display = "none";
+            for (var i = 0; i < len1; i++) {
+                rnum1 = Math.floor((Math.random()*9)+1);
+                rnum2 = Math.floor((Math.random()*9)+1);
+                ops=['+','-','*','/'];
+            
+                ind = Math.floor(Math.random()*4);
+                opindex=ops[ind]; 
+                var res;
+                switch (ind){
+                  case 0: res=rnum1+rnum2; break;
+                  case 1: res=rnum1-rnum2; break;
+                  case 2: res=rnum1*rnum2; break;
+                  case 3: res=rnum1/rnum2; break;
+                  
+                }
+                var x = rnum1 + " " + opindex + " " + rnum2;
+                arr1.push({
+                    id : i,
+                    question : x,
+                    canswer: res,
+                    uanswer: 0
+                });
+            }
+            document.getElementById('startQuiz1').style.display = "block";
+            num2=document.getElementById("num2");
+            num2.innerHTML = arr1[0].question;
+        }
         
         function New(){
             
@@ -126,8 +174,8 @@
                 numCorrect++;
             }
                 
-            const resultsContainer = document.getElementById('resultscount');
-            resultcount.innerHTML = `${numCorrect} out of ${arr.length}`;
+            const resultscount = document.getElementById('resultcount');
+            resultscount.innerHTML = `${numCorrect} out of ${arr.length}`;
             
             num1=document.getElementById("num1");
             
@@ -139,6 +187,32 @@
             num1.innerHTML = arr[idx].question;
             
         }
+        
+        function New1(){
+            
+            var  k = document.getElementById('sketchpad-post1').value;
+            document.getElementById('sketchpad-post1').value = ''
+            if (k){
+                arr1[idx1].uanswer=k;
+            }
+            if(arr1[idx1].uanswer == arr1[idx1].canswer){
+                numCorrect1++;
+            }
+                
+            const resultscount = document.getElementById('resultcount1');
+            resultscount.innerHTML = `${numCorrect1} out of ${arr1.length}`;
+            
+            num2=document.getElementById("num2");
+            
+            idx1 = idx1+1;
+            if( idx1 == 20){
+               document.getElementById('submit1').style.display = "block";
+               document.getElementById('nxt1').disabled = true;
+            }
+            num2.innerHTML = arr1[idx1].question;
+            
+        }
+        
         function submit(){
             var tab = document.getElementById('tab');
             var tr =  "<td>" + "<td>Worng Answers" + " <td>"+"</td></tr>";
@@ -156,6 +230,24 @@
             }
             
             document.getElementById('sub').disabled = true;
+        }
+        function submit1(){
+            var tab = document.getElementById('tab1');
+            var tr =  "<td>" + "<td>Worng Answers" + " <td>"+"</td></tr>";
+            tab.innerHTML += tr;
+            tr = "<td>Operation" + "<td>correct answer" + " <td>your answer"+"</td></tr>";
+            tab.innerHTML += tr;
+            for (var i = 0; i < arr1.length; i++) {
+                tr = "<tr>";
+            
+                if (arr1[i].canswer != arr1[i].uanswer){
+                    
+                    tr += "<td>" + arr1[i].question.toString() + "</td>" + "<td> " + arr1[i].canswer.toString() + " <td>"+ arr1[i].uanswer.toString()+"</td></tr>";
+                    tab.innerHTML += tr;
+                }
+            }
+            
+            document.getElementById('sub1').disabled = true;
         }
     </script>
   </body>
