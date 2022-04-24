@@ -1,0 +1,162 @@
+<!doctype html>
+<html ng-app>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular.js"></script>
+    <style>
+    @import url(https://fonts.googleapis.com/css?family=Work+Sans:300,600);
+    body{
+    	font-size: 20px;
+    	font-family: 'Work Sans', sans-serif;
+    	color: #333;
+      font-weight: 300;
+      text-align: center;
+      background-color: #f8f6f0;
+    }
+    h1{
+      font-weight: 300;
+      margin: 0px;
+      padding: 10px;
+      font-size: 20px;
+      background-color: #444;
+      color: #fff;
+    }
+    button{
+      font-family: 'Work Sans', sans-serif;
+    	font-size: 22px;
+    	background-color: #279;
+    	color: #fff;
+    	border: 0px;
+    	border-radius: 3px;
+    	padding: 20px;
+    	cursor: pointer;
+    	margin-bottom: 20px;
+    }
+    button:hover{
+    	background-color: #38a;
+    }
+    
+    .split {
+      height: 100%;
+      width: 50%;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      overflow-x: hidden;
+      padding-top: 20px;
+    }
+    
+    .left {
+      left: 0;
+    }
+    
+    .right {
+      right: 0;
+    }
+
+    </style>
+  </head>
+  <body>
+    <div id = 'intiateQuiz' class="split left">
+        <div class = "centered">
+            <button id = "quiz" onclick = "myFunction()"> QUIZ</button>
+        </div>
+    
+  </div>
+  <div  id = "startQuiz" style="display:none;" class= "split right">
+    <div class = "centered" id="num1"></div><!--end of num1-->
+    <input type="text" id="sketchpad-post" autocomplete="off" value = "" placeholder="ans"/>
+    <button id = "nxt" onclick="New()">Next</button>  
+    <div id = "resultcount"></div>
+    <div  id = "submit" style="display:none;"> 
+        <button  id = "sub"  onclick="submit()">submit</button>
+        <table>
+            <tbody id="tab"></tbody>
+        </table>
+        
+        
+    </div>
+  </div>
+    <script>
+    
+        var arr = [];
+        var len = 20;
+        var idx = 0;
+        let numCorrect = 0;
+        let answerContainers=[];
+        function  myFunction() {
+            quiz = document.getElementById('quiz');
+            quiz.innerHTML = "Quiz Started";
+            for (var i = 0; i < len; i++) {
+                rnum1 = Math.floor((Math.random()*9)+1);
+                rnum2 = Math.floor((Math.random()*9)+1);
+                ops=['+','-','*','/'];
+            
+                ind = Math.floor(Math.random()*4);
+                opindex=ops[ind]; 
+                var res;
+                switch (ind){
+                  case 0: res=rnum1+rnum2; break;
+                  case 1: res=rnum1-rnum2; break;
+                  case 2: res=rnum1*rnum2; break;
+                  case 3: res=rnum1/rnum2; break;
+                  
+                }
+                var x = rnum1 + " " + opindex + " " + rnum2;
+                arr.push({
+                    id : i,
+                    question : x,
+                    canswer: res,
+                    uanswer: 0
+                });
+            }
+            document.getElementById('startQuiz').style.display = "block";
+            num1=document.getElementById("num1");
+            num1.innerHTML = arr[0].question;
+        }
+        
+        function New(){
+            
+            var  k = document.getElementById('sketchpad-post').value;
+            document.getElementById('sketchpad-post').value = ''
+            console.log(k);
+            if (k){
+                arr[idx].uanswer=k;
+            }
+            if(arr[idx].uanswer == arr[idx].canswer){
+                numCorrect++;
+            }
+                
+            const resultsContainer = document.getElementById('resultscount');
+            resultcount.innerHTML = `${numCorrect} out of ${arr.length}`;
+            
+            num1=document.getElementById("num1");
+            
+            idx = idx+1;
+            if( idx == 20){
+               document.getElementById('submit').style.display = "block";
+               document.getElementById('nxt').disabled = true;
+            }
+            num1.innerHTML = arr[idx].question;
+            
+        }
+        function submit(){
+            var tab = document.getElementById('tab');
+            var tr =  "<td>" + "<td>Worng Answers" + " <td>"+"</td></tr>";
+            tab.innerHTML += tr;
+            tr = "<td>Operation" + "<td>correct answer" + " <td>your answer"+"</td></tr>";
+            tab.innerHTML += tr;
+            for (var i = 0; i < arr.length; i++) {
+                tr = "<tr>";
+            
+                if (arr[i].canswer != arr[i].uanswer){
+                    
+                    tr += "<td>" + arr[i].question.toString() + "</td>" + "<td> " + arr[i].canswer.toString() + " <td>"+ arr[i].uanswer.toString()+"</td></tr>";
+                    tab.innerHTML += tr;
+                }
+            }
+            
+            document.getElementById('sub').disabled = true;
+        }
+    </script>
+  </body>
+</html>
