@@ -219,16 +219,18 @@
         
         function submit(){
             var tab = document.getElementById('tab');
-            var tr =  "<td>" + "<td>Worng Answers" + " <td>"+"</td></tr>";
-            tab.innerHTML += tr;
-            tr = "<td>Operation" + "<td>correct answer" + " <td>your answer"+"</td></tr>";
+            var tr = "<td>Operation" + "<td>correct answer" + " <td>your answer"+"</td></tr>";
             tab.innerHTML += tr;
             for (var i = 0; i < arr.length; i++) {
                 tr = "<tr>";
             
                 if (arr[i].canswer != arr[i].uanswer){
                     
-                    tr += "<td>" + arr[i].question.toString() + "</td>" + "<td> " + arr[i].canswer.toString() + " <td>"+ arr[i].uanswer.toString()+"</td></tr>";
+                    tr += "<td>" + arr[i].question.toString().fontcolor( "red" ) + "</td>" + "<td> " + arr[i].canswer.toString().fontcolor( "red" ) + " <td>"+ arr[i].uanswer.toString().fontcolor( "red" )+"</td></tr>";
+                    tab.innerHTML += tr;
+                }
+                else{
+                     tr += "<td>" + arr[i].question.toString().fontcolor( "lightgreen" ) + "</td>" + "<td> " + arr[i].canswer.toString().fontcolor( "lightgreen" ) + " <td>"+ arr[i].uanswer.toString().fontcolor( "lightgreen" )+"</td></tr>";
                     tab.innerHTML += tr;
                 }
             }
@@ -237,16 +239,18 @@
         }
         function submit1(){
             var tab = document.getElementById('tab1');
-            var tr =  "<td>" + "<td>Worng Answers" + " <td>"+"</td></tr>";
-            tab.innerHTML += tr;
-            tr = "<td>Operation" + "<td>correct answer" + " <td>your answer"+"</td></tr>";
+            var tr = "<td>Operation" + "<td>correct answer" + " <td>your answer"+"</td></tr>";
             tab.innerHTML += tr;
             for (var i = 0; i < arr1.length; i++) {
                 tr = "<tr>";
             
                 if (arr1[i].canswer != arr1[i].uanswer){
                     
-                    tr += "<td>" + arr1[i].question.toString() + "</td>" + "<td> " + arr1[i].canswer.toString() + " <td>"+ arr1[i].uanswer.toString()+"</td></tr>";
+                    tr += "<td>" + arr1[i].question.toString().fontcolor( "red" ) + "</td>" + "<td> " + arr1[i].canswer.toString().fontcolor( "red" ) + " <td>"+ arr1[i].uanswer.toString().fontcolor( "red" )+"</td></tr>";
+                    tab.innerHTML += tr;
+                }
+                else{
+                    tr += "<td>" + arr1[i].question.toString().fontcolor( "lightgreen" ) + "</td>" + "<td> " + arr1[i].canswer.toString().fontcolor( "lightgreen" )  + " <td>"+ arr1[i].uanswer.toString().fontcolor( "lightgreen" ) +"</td></tr>";
                     tab.innerHTML += tr;
                 }
             }
